@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const { green, blue } = require("colorette");
+
 const commander = require("commander");
 const { prompt } = require("enquirer");
 const axios = require("axios");
@@ -18,6 +20,13 @@ const questions = [
     message: "Select the request type:",
     choices: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     default: "GET",
+  },
+  {
+    type: "select",
+    name: "header",
+    message: "Want to show all headers?:",
+    choices: ["yes", "no"],
+    default: "no",
   },
   {
     type: "input",
@@ -50,7 +59,8 @@ const questions = [
 program
   .option("-t, --type <type>", "Add Server type", "REST")
   .option("-a, --api <type>", "Add the API link", "")
-  .option("-r, --req <type>", "Add the specified Request Type", "GET")
+  .option("-req, --req <type>", "Add the specified Request Type", "GET")
+  .option("-sh, --header <type>", "Show all headers", "")
   .option("-h, --head <type>", "Add the Auth Header", "")
   .option("-c, --cookie <type>", "Add the cookie token", "Bearer ")
   .option("-e, --event <type>", "Add Socket.io event", "join")
@@ -97,10 +107,13 @@ const runCLI = async () => {
         return;
     }
 
-    console.log(`Status: ${response.status}`);
-    console.log("Response:", response.data);
+    console.log(green(`\n\n\nStatus: ${response.status}`));
+    if (config.header == "yes") {
+      console.log(`${blue("Headers")}: ${response.headers}`);
+    }
+    console.log(green("Response:"), response.data);
   } catch (error) {
-    console.error("Error:", error.message);
+    console.error("Error:", error);
     if (error.response) {
       console.error("Response Status:", error.response.status);
       console.error("Response Data:", error.response.data);

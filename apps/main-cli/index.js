@@ -1,10 +1,8 @@
 #!/usr/bin/env node
 
-const commander = require("commander");
 const { prompt } = require("enquirer");
-const axios = require("axios");
 
-const { runCLI } = require("./package/RestProvider");
+const { runCLI } = require("./packages/Restprovider");
 
 const servicePrompt = {
   type: "select",
@@ -13,7 +11,6 @@ const servicePrompt = {
   choices: ["REST API", "Web Socket", "Socket.io"],
 };
 
-const program = new commander.Command();
 const main = async () => {
   const serviceans = await prompt(servicePrompt);
   if (serviceans.service === "REST API") {
