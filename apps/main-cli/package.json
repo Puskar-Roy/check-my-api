@@ -12,6 +12,9 @@
   },
   "author": "Puskar Roy",
   "license": "ISC",
+  "bin": {
+    "check-api": "./index.js"
+  },
   "bugs": {
     "url": "https://github.com/Puskar-Roy/check-my-api/issues"
   },
